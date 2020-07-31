@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+{% if notification_enabled %}
+<div class="alert alert-{{ notification_type }} alert-dismissible fade show" role="alert">
+    {{ notification }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{% endif %}
+
+
+<div class="row ml-1 mr-1">
+
+  <div class="table-wrapper darkcard col-md-3 card shadow" style="padding: 1rem;">
+    <h1>Items</h1>
+    <table class="table inv-table table-sm" id="Inventory">
+      <thead>
+        <tr>
+          <th class="">Name</th>
+          <th class="">Action</th>
+        </tr>
+      </thead>
+      <tbody id="myTable">
+        {% for item in items %}
+        <tr>
+            <td>{{item.name}} ({{item.amount_fixed}})</td>
+            <td>
+              {% if perms.inventory.delete_item %}
+              <form action="#" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="itemid" value="{{item.id}}">
+                  <input type="hidden" name="item" value="Item">
+                  <button type="submit" class="btn btn-danger">
+                    <i class="far fa-trash-alt"></i> Delete
+                  </button>
+              </form>
+              {%endif%}
+              
+            </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+  <script>
+  $(document).ready(function() {
+      $('#Inventory').DataTable( {
+          dom: 'Bfrtip',
+          buttons: [
+              
+          ]
+      } );
+  } );
+    
+  $(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+  });
+  </script>
+
+
+
+
+<div class="table-wrapper darkcard ml-1 col-md-3 card shadow" style="padding: 1rem;">
+    <h1>Persons</h1>
+    <table class="table inv-table table-sm" id="persons">
+      <thead>
+        <tr>
+          <th class="">Name</th>
+          <th class="">Action</th>
+        </tr>
+      </thead>
+      <tbody id="myTable">
+        {% for item in persons %}
+        <tr>
+            <td>{{item.name}} </td>
+            <td>
+              {% if perms.inventory.delete_person %}
+              <form action="#" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="itemid" value="{{item.id}}">
+                  <input type="hidden" name="item" value="Person">
+                  <button type="submit" class="btn btn-danger">
+                    <i class="far fa-trash-alt"></i> Delete
+                  </button>
+              </form>
+              {%endif%}
+              
+            </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+  <script>
+  $(document).ready(function() {
+      $('#persons').DataTable( {
+          dom: 'Bfrtip',
+          buttons: [
+              
+          ]
+      } );
+  } );
+    
+  $(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+  });
+  </script>
+
+
+<div class="table-wrapper darkcard ml-1 col-md-3 card shadow" style="padding: 1rem;">
+  <h1>Categories</h1>
+  <table class="table inv-table table-sm" id="cats">
+    <thead>
+      <tr>
+        <th class="">Name</th>
+        <th class="">Action</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      {% for item in categories %}
+      <tr>
+          <td>{{item.name}} </td>
+          <td>
+            {% if perms.inventory.delete_category %}
+            <form action="#" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="itemid" value="{{item.id}}">
+                <input type="hidden" name="item" value="Category">
+                <button type="submit" class="btn btn-danger">
+                  <i class="far fa-trash-alt"></i> Delete
+                </button>
+            </form>
+            {%endif%}
+            
+          </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#cats').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            
+        ]
+    } );
+} );
+  
+$(document).ready(function(){
+$("#myInput").on("keyup", function() {
+  var value = $(this).val().toLowerCase();
+  $("#myTable tr").filter(function() {
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+  });
+});
+});
+</script>
+
+
+<div class="table-wrapper darkcard ml-1 col-md-2 card shadow" style="padding: 1rem;">
+  <h1>Places</h1>
+  <table class="table inv-table table-sm" id="places">
+    <thead>
+      <tr>
+        <th class="">Name</th>
+        <th class="">Action</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      {% for item in places %}
+      <tr>
+          <td>{{item.name}} </td>
+          <td>
+            {% if perms.inventory.delete_place %}
+            <form action="#" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="itemid" value="{{item.id}}">
+                <input type="hidden" name="item" value="Place">
+                <button type="submit" class="btn btn-danger">
+                  <i class="far fa-trash-alt"></i> Delete
+                </button>
+            </form>
+            {%endif%}
+            
+          </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#places').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            
+        ]
+    } );
+} );
+  
+$(document).ready(function(){
+$("#myInput").on("keyup", function() {
+  var value = $(this).val().toLowerCase();
+  $("#myTable tr").filter(function() {
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+  });
+});
+});
+</script>
+
+</div>
+
+{% endblock %}

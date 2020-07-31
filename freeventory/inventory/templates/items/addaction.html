@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>Add Action</h1>
+
+<div class="card darkcard text-white lend">
+    <div class="card-body">
+        <form action="#" method="POST">
+            {% csrf_token %}
+            {% if isindex %}
+            <input type="hidden" name="isindex" value="{{isindex}}">
+            {% endif %}
+            <input type="hidden" name="itemid" value="{{item.id}}">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend">Item</span>
+                </div>
+                <select required data-live-search="true" class="selectpicker" id="item" name="itemid">
+                    {% for item in items %}
+                    <option data-tokens="{{item.name}}" value="{{item.id}}">{{item.name}}</option>
+                    {% endfor %}
+                    <option selected data-tokens="{{item.name}}"  value="{{item.id}}">{{item.name}}</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend">Notes</span>
+                </div>
+                <textarea rows="5" columns="15"  name="notes"></textarea>
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend">Amount</span>
+                </div>
+                <input type="number" required  name="amount" value="1">
+            </div>
+            <small> > 0 Checkin, < 0 Checkout</small><br>
+            
+            <button type="submit" class="btn btn-success">
+                <i class="far fa-save"></i> Save
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('datePicker').valueAsDate = new Date();
+var tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 7);
+document.getElementById('datePickerWeek').valueAsDate = tomorrow;
+</script>
+
+{% endblock %}

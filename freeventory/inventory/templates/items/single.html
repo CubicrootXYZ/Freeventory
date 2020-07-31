@@ -1,0 +1,520 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<script>
+    $(function () {
+  $('[data-toggle="popover"]').popover()
+})
+</script>
+
+{% if error %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    Error when saving changes. At least one change is not saved.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+
+<h1>Item: {{item.name}} <span class="badge badge-primary">{{item.amount_fixed}}</span> / <span class="badge badge-warning">{{item.lends}}</span></h1>
+{% if item.thumb.name %}
+<div class="itemimg"><img class="shadow" src="/{{item.thumb.url}}"></div>
+{% endif %}
+
+<h2>Properties</h2>
+
+<div class="card shadow darkcard">
+<div class="card-body">
+    <form action="#" method="POST" enctype="multipart/form-data" class="nomargin">
+        {% csrf_token %}
+    <div class="row item-properties">
+
+        <div class="card border-left-primary text-white bg-dark col-md-2 ml-3 mb-3 mb-3">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>Name</b></p>
+                        <p class="iteminput-reverse card-text">{{item.name}}</p>
+                        {% if perms.inventory.edit_item %}
+                        <p required class="iteminput"><input type="text" name="name" placeholder="My name" value="{{item.name}}"></p>
+                        {% endif %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-2x fa-tag"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-left-primary text-white bg-dark col-md-2 ml-3 mb-3">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>Owner</b></p>
+                        <p class="card-text iteminput-reverse">{{item.owner.name}}</p>
+                        {% if perms.inventory.edit_item %}
+                        <p class="iteminput">
+                            <select required data-live-search="true" class="selectpicker" id="person" name="person">
+                                <option data-tokens="{{item.owner.name}}" selected value="{{item.owner.id}}">{{item.owner.name}}</option>
+                                {% for person in persons %}
+                                <option data-tokens="{{person.name}}" value="{{person.id}}">{{person.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        {% endif %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-2x fa-user-tag"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-left-primary text-white bg-dark col-md-2 ml-3 mb-3">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>Category</b></p>
+                        <p class="card-text iteminput-reverse">{{item.category.name}}</p>
+                        {% if perms.inventory.edit_item %}
+                        <p class="iteminput">
+                            <select required data-live-search="true" class="selectpicker" id="category" name="category">
+                                <option data-tokens="{{item.category.name}}" selected value="{{item.category.id}}">{{item.category.name}}</option>
+                                {% for category in categories %}
+                                <option data-tokens="{{category.name}}" value="{{category.id}}">{{category.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        {% endif %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-2x fa-tags"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-left-primary text-white bg-dark col-md-2 ml-3 mb-3">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>Place</b></p>
+                        <p class="card-text iteminput-reverse">{{item.place.name}}</p>
+                        {% if perms.inventory.edit_item %}
+                        <p class="iteminput">
+                            <select required data-live-search="true" class="selectpicker" id="place" name="place">
+                                <option data-tokens="{{item.place.name}}" selected value="{{item.place.id}}">{{item.place.name}}</option>
+                                {% for place in places %}
+                                <option data-tokens="{{place.name}}" value="{{place.id}}">{{place.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        {% endif %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-2x fa-map-marker-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-left-primary text-white bg-dark col-md-2 ml-3 mb-3">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>Price</b></p>
+                        <p class="card-text iteminput-reverse">{{item.price}}</p>
+                        {% if perms.inventory.edit_item %}
+                        <p class="iteminput"><input type="number" name="price" placeholder="0.0" value="{{item.price}}" step="any"></p>
+                        {% endif %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-2x fa-coins"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-left-primary text-white bg-dark col-md-2 ml-3 mb-3">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>Amount</b></p>
+                        <p class="card-text iteminput-reverse badge badge-primary">{{item.amount_fixed}}</p>
+                        {% if perms.inventory.edit_item %}
+                        <p class="iteminput"><input type="number" name="amount" placeholder="14" value="{{item.amount}}"><br><small>This is the base amount of the Item, without Checkins, Checkouts and Lends.</small></p>
+                        {% endif %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-2x fa-cubes"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-left-primary text-white bg-dark col-md-2 ml-3 mb-3">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>Number</b></p>
+                        <p class="card-text iteminput-reverse">{{item.item_number}}</p>
+                        {% if perms.inventory.edit_item %}
+                        <p class="iteminput"><input type="text" name="item_number" placeholder="MW56D" value="{{item.item_number}}"><br></p>
+                        {% endif %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-2x fa-hashtag"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-left-primary text-white bg-dark col-md-2 ml-3 mb-3">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>Storage</b></p>
+                        <p class="card-text iteminput-reverse">{{item.storage_position}}</p>
+                        {% if perms.inventory.edit_item %}
+                        <p class="iteminput"><input type="text" name="storage_position" placeholder="Left Box" value="{{item.storage_position}}"><br></p>
+                        {% endif %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-2x fa-box-open"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-left-primary text-white bg-dark col-md-2 ml-3 mb-3">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>Supplier</b></p>
+                        <p class="card-text iteminput-reverse">{{item.supplier}}</p>
+                        {% if perms.inventory.edit_item %}
+                        <p class="iteminput"><input type="text" name="supplier" placeholder="Hanz Herbach Schreiner" value="{{item.supplier}}"><br></p>
+                        {% endif %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-2x fa-truck-moving"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-left-primary text-white bg-dark col-md-2 ml-3 mb-3">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>File</b></p>
+                        <p class="card-text iteminput-reverse">{% if item.file.name %} <a href="/{{item.file.url}}">{{file_name}}</a> {% endif %} <i tabindex="0" class="fas fa-info-circle" role="button" data-toggle="popover" data-trigger="focus" title="File storage" data-content="Files are stored with their original name and some random characters attached. They theoretically can be viewed by everyone who knows the file name."></i></p>
+                        {% if perms.inventory.edit_item %}
+                        <p class="iteminput"><input type="file" name="file" value="{{item.file}}"><br></p>
+                        {% endif %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-2x fa-file-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-left-primary text-white bg-dark col-md-2 ml-3 mb-3">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>Thumbnail</b></p>
+                        <p class="card-text iteminput-reverse">{% if item.thumb.name %} <a href="/{{item.thumb.url}}">{{thumb_name}}</a> {% endif %} <i tabindex="0" class="fas fa-info-circle" role="button" data-toggle="popover" data-trigger="focus" title="File storage" data-content="Files are stored with their original name and some random characters attached. They theoretically can be viewed by everyone who knows the file name."></i></p>
+                        {% if perms.inventory.edit_item %}
+                        <p class="iteminput"><input type="file" name="thumb" value="{{item.thumb}}"><br></p>
+                        {% endif %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-2x fa-image"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card border-left-primary text-white bg-dark col-md-5 mr-3 mb-3">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>Notes</b></p>
+                    <span class="card-text iteminput-reverse">{{item.notes|linebreaks}}</span>
+                    {% if perms.inventory.edit_item %}
+                    <p class="iteminput"><textarea name="notes" class="form-control" rows="5" cols="20">{{item.notes}}</textarea></p>
+                    {% endif %}
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-2x fa-marker"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    {% if perms.inventory.edit_item %}
+    <span class="btn btn-warning iteminput-reverse itemedit"><i class="fas fa-edit"></i> Edit</span>
+    <span class="btn btn-danger iteminput itemeditstop"><i class="fas fa-times"></i> Cancel</span>
+    <button type="submit" class="iteminput btn btn-success">
+        <i class="far fa-save"></i> Save
+    </button>
+    <br><br>
+    {% endif %}
+    </form>
+
+</div>
+</div>
+
+<script>
+ $('.itemedit').click(function() {
+        $(".iteminput").css('display','inline-block');
+        $(".iteminput-reverse").css('display','none');
+    });
+$('.itemeditstop').click(function() {
+    $(".iteminput").css('display','none');
+    $(".iteminput-reverse").css('display','inline-block');
+});
+</script>
+
+
+<!-- FEATURES -->
+
+<h2>Features</h2>
+
+<div class="card shadow darkcard">
+<div class="card-body">
+    
+    <div class="row item-features">
+
+        {% for feature in features %}
+        <div class="card border-left-primary text-white bg-dark col-md-3 ml-3 mb-3 mb-3">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>{{feature.name}}</b></p>
+                        <p class="featureinput-reverse card-text">{{feature.value}}</p>
+                        {% if perms.inventory.edit_feature %}
+                        <form action="{% url 'addfeature' %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="fname" value="{{feature.name}}">
+                            <input type="hidden" name="itemid" value="{{item.id}}">
+                            <input type="hidden" name="deleteid" value="{{feature.id}}">
+                        <p required class="featureinput"><input type="text" name="fvalue" placeholder="Value..." value="{{feature.value}}"></p>
+                        <button type="submit" class="featureinput btn btn-success">
+                            <i class="far fa-save"></i> Save
+                        </button>
+                        </form>
+                        <form action="{% url 'addfeature' %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="itemid" value="{{item.id}}">
+                            <input type="hidden" name="deleteid" value="{{feature.id}}">
+                        <button type="submit" class="featureinput btn btn-danger">
+                            <i class="far fa-trash-alt"></i> Delete
+                        </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-2x fa-tag"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if perms.inventory.edit_item %}
+
+    <span class="btn btn-warning featureinput-reverse featureedit"><i class="fas fa-edit"></i> Edit</span>
+    <span class="btn btn-danger featureinput featureeditstop"><i class="fas fa-times"></i> Cancel</span>
+    
+    {% endif %}
+
+    </form>
+
+    {% if perms.inventory.add_item %}
+    <form action="{% url 'addfeature' %}" autocomplete="off" method="POST" style="display:inline;">
+        {% csrf_token %}
+        <span class="btn btn-success featureaddinput-reverse featureadd"><i class="fas fa-plus"></i> Add</span>
+        <div class="card shadow border-left-primary text-white bg-dark featureaddinput">
+            <div class="card-body ">
+                <p class="text-s font-weight-bold text-primary text-uppercase mb-1"><b>Add new feature</b></p>
+                <div class="autocomplete" ">
+                    <input type="text" id="fname" name="fname" placeholder="Name...">:
+                </div>
+                <input type="text" name="fvalue" placeholder="Value...">
+                <input type="hidden" name="itemid" value="{{item.id}}"><br><br>
+                <p>
+                    <button type="submit" class="featureaddinput btn btn-success">
+                        <i class="far fa-save"></i> Save
+                    </button>
+                    <span class="btn btn-danger featureaddinput featureaddstop"><i class="fas fa-times"></i> Cancel</span>
+                </p>
+            </div>
+
+        </div>
+        
+    </form>
+    {% endif %}
+
+    
+</div>
+</div>
+
+<script>
+ $('.featureedit').click(function() {
+        $(".featureinput").css('display','inline-block');
+        $(".featureinput-reverse").css('display','none');
+    });
+$('.featureeditstop').click(function() {
+    $(".featureinput").css('display','none');
+    $(".featureinput-reverse").css('display','inline-block');
+});
+
+$('.featureadd').click(function() {
+        $(".featureaddinput").css('display','inline-block');
+        $(".featureaddinput-reverse").css('display','none');
+    });
+$('.featureaddstop').click(function() {
+    $(".featureaddinput").css('display','none');
+    $(".featureaddinput-reverse").css('display','inline-block');
+});
+
+{% autoescape off %}
+var fnames = {{feature_names}};
+{% endautoescape %}
+</script>
+<script src="/static/js/autocomplete.js"></script>
+<script>
+    autocomplete(document.getElementById("fname"), fnames);
+</script>
+
+<!-- Lends and Actions -->
+
+<h2>Lends & Actions</h2>
+
+
+
+<div class="row">
+
+    <div class="col-md-6 card darkcard" style ="margin-left: 1rem;">
+    <div class="card-body">
+
+        <h4 class="font-weight-bold text-primary text-uppercase"><span class="badge badge-warning">{{item.lends_amount}}</span> Active Lends</h4>
+        {% if perms.inventory.add_lend %}
+        <form action="{% url 'addlend' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="itemid" value="{{item.id}}">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-cart-plus"></i> Add Lend
+            </button>
+        </form>
+        {% endif %}
+
+        {% for lend in lends %}
+        <div class="row align-items-center">
+            <div class="col-md-2">
+                <span class="badge bigbadge badge-primary">{{lend.amount}}</span>
+                
+            </div>
+            <div class="card col-md-9 border-left-primary text-white bg-dark ml-2 mb-1">
+                <div class="card-body row">
+                    <div class="col-md-6">
+                        <b>Lend by:</b> <span class="badge badge-primary">{{lend.responsible.name}}</span><br>
+                        <b>Lend at:</b> {{lend.lend_start}}<br>
+                        <b>Lend until:</b> {{lend.lend_end}}<br>
+                        {% if perms.inventory.edit_lend %}
+                        <form action="{% url 'updatelend' %}" method="POST" class="inline-form">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{lend.id}}" name="lendid">
+                            <input type="hidden" value="{{item.id}}" name="itemid"> 
+                            <button type="submit" class="btn btn-success" >
+                                <i class="fas fa-undo-alt"></i> Return
+                            </button>
+                        </form>
+                        {% endif %}
+                        {% if perms.inventory.delete_lend %}
+                        <form action="{% url 'updatelend' %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{lend.id}}" name="deleteid">
+                            <input type="hidden" value="{{item.id}}" name="itemid"> 
+                            <button type="submit" class="btn btn-danger">
+                                <i class="far fa-trash-alt"></i> Delete
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-5">
+                        <b>Notes:</b> {{lend.notes|linebreaks}}
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+    </div>
+
+    <div class="col-md-5 card darkcard" style ="margin-left: 1rem;">
+    <div class="card-body">
+
+
+        <h4 class="font-weight-bold text-primary text-uppercase">Actions (last 20)</h4>
+        {% if perms.inventory.add_action %}
+        <form action="{% url 'addaction' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="itemid" value="{{item.id}}">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-plus"></i> Add Action
+            </button>
+        </form>
+        {% endif %}
+
+        {% for action in actions %}
+        <div class="row align-items-center">
+            <div class="col-md-2">
+                <span class="badge bigbadge {% if action.amount >= 0 %} badge-success {% else %} badge-danger {% endif %}">{% if action.amount >= 0 %}+{% endif %}{{action.amount}}</span>
+                
+            </div>
+            <div class="card col-md-9 border-left-primary text-white bg-dark ml-2 mb-1">
+                <div class="card-body row">
+                    <div class="col-md-6">
+                         {{action.action_date}}<br>
+                        {% if perms.inventory.delete_action %}
+                        <form action="{% url 'addaction' %}" method="POST" class="inline-form">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{action.id}}" name="deleteid">
+                            <input type="hidden" value="{{item.id}}" name="itemid"> 
+                            <button type="submit" class="btn btn-danger" >
+                                <i class="far fa-trash-alt"></i> Delete
+                            </button>
+                        </form>
+                         {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <b>Notes:</b> {{action.notes|linebreaks}}
+                        
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+    </div>
+
+</div>
+
+{% endblock %}

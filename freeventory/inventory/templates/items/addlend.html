@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>Add Lend</h1>
+
+{% if item.amount_fixed <= 0 %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    There are actually no items to lend!
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+
+<div class="card darkcard text-white lend">
+    <div class="card-body">
+        <form action="#" method="POST">
+            {% csrf_token %}
+            {% if isindex %}
+            <input type="hidden" name="isindex" value="{{isindex}}">
+            {% endif %}
+            {% if islends %}
+            <input type="hidden" name="islends" value="{{islends}}">
+            {% endif %}
+            <input type="hidden" name="itemid" value="{{item.id}}">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend">Item</span>
+                </div>
+                <select required data-live-search="true" class="selectpicker" id="item" name="itemid">
+                    {% for item in items %}
+                    <option data-tokens="{{item.name}}" value="{{item.id}}">{{item.name}}</option>
+                    {% endfor %}
+                    <option selected data-tokens="{{item.name}}"  value="{{item.id}}">{{item.name}}</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend">Lend by</span>
+                </div>
+                <select required data-live-search="true" class="selectpicker" id="person" name="person">
+                    {% for person in persons %}
+                    <option data-tokens="{{person.name}}" value="{{person.id}}">{{person.name}}</option>
+                    {% endfor %}
+                    <option hidden disabled selected data-tokens="ss"  value="dd">Select ...</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend">Lend start</span>
+                </div>
+                <input type="date" id="datePicker" required  name="lend_start">
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend">Lend end</span>
+                </div>
+                <input type="date" required  id="datePickerWeek" name="lend_end">
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend">Notes</span>
+                </div>
+                <textarea rows="5" columns="15"  name="notes"></textarea>
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend">Amount</span>
+                </div>
+                <input type="number" required  name="amount" value="1">
+            </div>
+            
+            <button type="submit" class="btn btn-success">
+              <i class="far fa-save"></i> Save
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('datePicker').valueAsDate = new Date();
+var tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 7);
+document.getElementById('datePickerWeek').valueAsDate = tomorrow;
+</script>
+
+{% endblock %}

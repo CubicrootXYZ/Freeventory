@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="disp-center">Freeventory</h1>
+
+<div class="card shadow mb-4">
+  <div class="card-body disp-block disp-center">
+      Welcome to this instance of freeventory. To manage your inventory you need to log in.<br><br>
+      {% if user.is_authenticated %}
+      Welcome back {{ user.username }}.
+      {% else %}
+      <a href="{% url 'login' %}" class="btn btn-success">Login</a>
+      <a href="{% url 'password_reset' %}" class="btn btn-warning">Forgot Password?</a>
+      {% endif %}
+    </div>
+</div>
+
+
+
+{% endblock %}

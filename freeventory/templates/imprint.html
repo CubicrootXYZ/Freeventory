@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>Imprint and Privacy Policy</h1>
+
+<div class="card shadow">
+    <div class="card-body">
+        This service gets provided by<br>
+        Alexander Ebhart<br>
+        kontakt@alexander-ebhart.de<br>
+        <small>We do not offer a phone number, because this is a non-commercial site.</small>
+    </div>
+</div>
+<br>
+<div class="card shadow">
+    <div class="card-body">
+        <h2>Privacy Policy</h2>
+        <b>Data we store</b><br>
+        We only store personal data that is necessary to operate this service. Our webserver might log your IP-Adress and request (time, requested content, browser information) to avoid abusive use.<br>
+        The provided authorization system saves a unique session cookie on your device. We really need that to know who you are! A second CSRF cookie is saved to your device this is used to identify your requests to the site that are done via HTML forms, so we know its you and not a stranger that wants to bully us.<br><br>
+        If you register to our service we will need your mail address, this is used to contact you, e.g. when you lost your password. You need to enter a name, but that does not have to be your real one.<br>
+        <br>
+        <b>How the data is stored</b><br>
+        Logfiles are saved directly on the disc of the webserver. <br>
+        Cookies are saved in your browser, feel free to delete them whenever you want. You will just need to login again.<br>
+        Account data is stored in our database.<br>
+        <br>
+        <b>Deletion and correction</b><br>
+        It is your right to request a deletion (Art. 17/18 DSGVO) or correction of data. Just contact us via the data provided on top of this page.<br><br>
+        <b>Legal Basis</b><br>
+        We handle data according to the german DSGVO. We are allowed to collect that data because of a rightful interest to operate our services without abuse (Art. 6 Abs. 1 f) and because we need some data to be able to offer this service (Art. 6 Abs. 1 b). We keep your data secure to known standards!
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>Add Category</h1>
+
+<div class="card darkcard text-white lend">
+    <div class="card-body">
+        <form action="#" method="POST">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend"><b>Name</b></span>
+                </div>
+                <input type="text" required  name="name" placeholder="5V Electronics">
+            </div>
+            
+            <button type="submit" class="btn btn-success">
+                <i class="far fa-save"></i> Save
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('datePicker').valueAsDate = new Date();
+var tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 7);
+document.getElementById('datePickerWeek').valueAsDate = tomorrow;
+</script>
+
+{% endblock %}

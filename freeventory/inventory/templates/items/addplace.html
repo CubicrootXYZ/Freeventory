@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>Add Place</h1>
+
+<div class="card darkcard text-white lend">
+    <div class="card-body">
+        <form action="#" method="POST">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend"><b>Name</b></span>
+                </div>
+                <input type="text" required  name="name">
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend"><b>Place owner</b></span>
+                </div>
+                <select required data-live-search="true" class="selectpicker" id="person" name="person">
+                    {% for person in persons %}
+                    <option data-tokens="{{person.name}}" value="{{person.id}}">{{person.name}}</option>
+                    {% endfor %}
+                    <option hidden disabled selected data-tokens="ss"  value="dd">Select ...</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend">Address</span>
+                </div>
+                <input type="text" name="address" placeholder="Some Street 66, 72294 Anywhere">
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupPrepend">Notes</span>
+                </div>
+                <textarea rows="5" columns="15"  name="notes"></textarea>
+            </div>
+
+            
+            <button type="submit" class="btn btn-success">
+              <i class="far fa-save"></i> Save
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('datePicker').valueAsDate = new Date();
+var tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 7);
+document.getElementById('datePickerWeek').valueAsDate = tomorrow;
+</script>
+
+{% endblock %}

@@ -1,0 +1,215 @@
+{% load static %}
+
+<html>
+    <head>
+       <title>Freeventory | {{site_title}}</title>
+       <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+       <!-- Theme CSS -->
+       <link rel="stylesheet" type="text/css" href="{% static 'css/sb-admin-2.min.css' %}" />
+       <link href="{% static 'css/all.css' %}" rel="stylesheet" type="text/css">
+       <!-- jQuery -->
+       <script src="/static/js/jquery.js"></script>
+       <!-- Popper -->
+       <script src="/static/js/popper.min.js" ></script>
+       <!-- Bootstrap CSS and js -->
+       <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+       <script src="/static/js/bootstrap.min.js" ></script>
+       <!-- DataTables -->
+       <link rel="stylesheet" type="text/css" href="/static/DataTables/datatables.min.css"/>
+       <script type="text/javascript" src="{% static 'DataTables/datatables.min.js' %}"></script>
+       <!-- Bootstrap select -->
+       <link rel="stylesheet" href="/static/css/bootstrap-select.min.css">
+       <script src="/static/js/bootstrap-select.min.js"></script>
+       <!-- Custom CSS -->
+       <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+    </head>
+    <body>
+       <!-- Page Wrapper -->
+       <div id="wrapper">
+       <!-- Sidebar -->
+       <ul class="navbar-nav bg-gradient-primary sidebar toggled sidebar-dark accordion" id="accordionSidebar">
+          <!-- Sidebar - Brand -->
+          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+             <div class="sidebar-brand-icon">
+               <i class="fas fa-box-open"></i>
+             </div>
+             <div class="sidebar-brand-text mx-3">Freeventory</div>
+          </a>
+          <!-- Divider -->
+          <hr class="sidebar-divider my-0">
+          <!-- Nav Item - Dashboard -->
+          <li class="nav-item">
+             <a class="nav-link" href="/">
+             <i class="fas fa-fw fa-map-marked-alt"></i>
+             <span>Home</span></a>
+          </li>
+          {% if perms.inventory.view_item %}
+          <!-- Divider -->
+          <hr class="sidebar-divider">
+          <!-- Heading -->
+          <div class="sidebar-heading">
+             Inventory
+          </div>
+          <!-- Nav Item - Dashboard -->
+
+         <li class="nav-item">
+             <a class="nav-link" href="{% url 'index' %}">
+             <i class="fas fa-fw fa-cubes"></i>
+             <span>Inventory</span></a>
+          </li>
+
+         <li class="nav-item">
+            <a class="nav-link" href="{% url 'lends' %}">
+            <i class="fas fa-fw fa-address-book"></i>
+            <span>Lends</span></a>
+         </li>
+         {% endif %}
+         
+         <!-- Divider -->
+         <hr class="sidebar-divider">
+         <!-- Heading -->
+         <div class="sidebar-heading">
+            Actions
+         </div>
+         <!-- Nav Item - Dashboard -->
+         {% if perms.inventory.add_item %}
+         <li class="nav-item">
+            <a class="nav-link" href="{% url 'additem' %}">
+            <i class="fas fa-fw fa-plus"></i>
+            <span>New Item</span></a>
+         </li>
+         {% endif %}
+         {% if perms.inventory.add_lend %}
+
+         <li class="nav-item">
+            <a class="nav-link" href="{% url 'addlend' %}">
+            <i class="fas fa-fw fa-plus"></i>
+            <span>New Lend</span></a>
+         </li>
+
+         {% endif %}
+
+         {% if perms.inventory.add_place %}
+
+         <li class="nav-item">
+            <a class="nav-link" href="{% url 'addplace' %}">
+            <i class="fas fa-fw fa-map-marker"></i>
+            <span>New Place</span></a>
+         </li>
+
+         {% endif %}
+
+         {% if perms.inventory.add_category %}
+
+         <li class="nav-item">
+            <a class="nav-link" href="{% url 'addcategory' %}">
+            <i class="fas fa-fw fa-tag"></i>
+            <span>New Category</span></a>
+         </li>
+
+         {% endif %}
+
+         {% if perms.inventory.add_person %}
+
+         <li class="nav-item">
+            <a class="nav-link" href="{% url 'addperson' %}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>New Person</span></a>
+         </li>
+
+         {% endif %}
+
+         {% if perms.inventory.delete_item or perms.inventory.delete_person or perms.inventory.delete_category or perms.inventory.delete_place %}
+
+         <!-- Divider -->
+         <hr class="sidebar-divider">
+
+         <li class="nav-item">
+            <a class="nav-link" href="{% url 'delete' %}">
+            <i class="fas fa-fw fa-trash"></i>
+            <span>Delete Items</span></a>
+         </li>
+
+         {% endif %}
+          
+          <!-- Divider -->
+          <hr class="sidebar-divider">
+         
+         
+          <li class="nav-item">
+             <a class="nav-link" href="/imprint">
+             <span>Impressum & Datenschutz</span></a>
+          </li>
+          <!-- Divider -->
+          <hr class="sidebar-divider d-none d-md-block">
+          <!-- Sidebar Toggler (Sidebar) -->
+          <div class="text-center d-none d-md-inline">
+             <button class="rounded-circle border-0" id="sidebarToggle"></button>
+          </div>
+       </ul>
+       <!-- End of Sidebar -->
+       <!-- Content Wrapper -->
+       <div id="content-wrapper" class="d-flex flex-column">
+       <!-- Main Content -->
+       <div id="content">
+       <!-- Topbar -->
+       <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+          <i class="fa fa-bars"></i>
+          </button>
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+             {% if user.is_authenticated %}
+             <li class="nav-item">
+                <a class="nav-link " href="{% url 'password_change' %}" role="button" >
+                <span class="mr-2 d-lg-inline text-gray-600 small">Change Password</span>
+                </a>
+             </li>
+             <div class="topbar-divider d-sm-block"></div>
+             <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}" role="button" >
+                <span class="mr-2 d-lg-inline text-gray-600 small">Logout</span>
+                </a>
+             </li>
+             {% else %}
+             <li class="nav-item">
+               <a class="nav-link" href="{% url 'password_reset' %}" role="button" >
+               <span class="mr-2 d-lg-inline text-gray-600 small">Reset Password</span>
+               </a>
+            </li>
+             <div class="topbar-divider d-sm-block"></div>
+             <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}" role="button" >
+                <span class="mr-2 d-lg-inline text-gray-600 small">Login</span>
+                </a>
+             </li>
+             {% endif %}
+          </ul>
+       </nav>
+<!-- End of Topbar -->
+
+<!-- Here comes the site content -->
+
+
+
+<div class="container-fluid">
+   {% block content %}
+
+   {% endblock %}
+</div>
+
+
+                <!-- Footer begins here -->
+                </div>
+                <!-- End of Main Content -->
+                <!-- Footer -->
+            <!-- End of Footer -->
+            </div>
+        <!-- End of Content Wrapper -->
+        </div>
+    <!-- End of Page Wrapper -->
+    <script src="/static/js/sb-admin-2.min.js" ></script>
+
+</body>
+</html>

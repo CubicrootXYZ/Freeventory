@@ -1,0 +1,447 @@
+a {
+    color: #ff8800;
+}
+
+a:hover {
+    color: #aa5c03;;
+    text-decoration: none;
+}
+
+#content {
+    background: #363636;
+    color: white;
+}
+.nomargin{
+    margin: 0 !important;
+}
+
+/*map*/
+#mapid { 
+    height: 60vh;
+    max-height: 50%; 
+    margin-bottom: 1rem;
+}
+.leaflet-popup {
+    font-size: 125%;
+}
+
+.leaflet-popup a {
+    color: #ff8800;
+}
+
+.leaflet-popup a:hover {
+    text-decoration: none;
+    color: #aa5c03;
+}
+
+
+/* Menu */
+.sidebar-brand-icon img {
+    max-width: 60%;
+}
+
+.bg-gradient-primary {
+    background-color: #ff8800 !important;
+    background-image: none !important;
+}
+
+.sidebar-heading {
+    word-break: break-all;
+}
+
+.navbar {
+    background: #171b1f !important;
+    color: white;
+}
+
+/* Cards */
+.darkcard {
+    background: #171b1f;
+    color: white;
+}
+.container-fluid h1 {
+    padding-bottom: 1.3rem;
+    padding-left: 2rem;
+}
+.container-fluid h2 {
+    padding-top: 0.7rem;
+    padding-bottom: 1rem;
+    padding-left: 2rem;
+}
+.disp-block {
+    display:block;
+}
+.disp-center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.border-left-primary {
+    border-left: 0.25rem solid #ff8800 !important;
+}
+
+.border-left-warning {
+    border-left: 0.25rem solid rgb(160, 0, 0) !important;
+}
+
+.text-primary {
+    color: #ff8800 !important;
+}
+
+#wrapper #content-wrapper {
+    overflow-x: inherit !important;
+}
+.card {
+    background-color: #171b1f;
+}
+
+
+
+.search {
+    margin-bottom: 1rem;
+}
+.search .card-header {
+    background-color: #ff8800;
+    color: white !important;
+}
+
+.orange-header {
+    background-color: #ff8800;
+    color: white !important;
+    border-left: none !important;
+    border-radius: 0;
+}
+
+.search h6 {
+    color: white !important;
+}
+.search .card-header:after {
+    color: white !important;
+}
+
+.search label {
+    font-weight: 700;
+    font-size: 80%;
+}
+
+.search input, .search textarea, .search select {
+    margin-bottom: 0.7rem;
+}
+
+.searchform {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card-header .btn {
+    display: block;
+    padding: 0.2rem;
+}
+
+.bg-lightred {
+    background: #fad9d9 !important;
+    border: none !important;
+}
+
+.bg-lightblue {
+    background: #dbe8ff !important;
+    border: none !important;
+}
+
+.bg-lightgreen {
+    background: #dffde8 !important;
+    border: none !important;
+}
+
+.bg-lightgrey {
+    border: none !important;
+}
+
+.search {
+    border-left: none !important;
+}
+
+.search .card-body {
+    border-left: 0.25rem solid #ff8800;
+}
+
+.bg-primary {
+    background-color: #ff8800 !important;
+}
+
+.success {
+    width: 100%;
+    padding:3rem;
+    font-size: 150%;
+    font-weight: 700;
+    color: white;
+    background:#017c04;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.fail {
+    width: 100%;
+    padding:3rem;
+    font-size: 150%;
+    font-weight: 700;
+    color: white;
+    background:#990000;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.noborder {
+    border: none !important;
+}
+
+.card-header h6 {
+    font-size: 130%;
+}
+
+/* Texts */
+.text-centered {
+    text-align: center !important;
+}
+
+.padded {
+    padding: 1rem;
+}
+
+/* Forms */
+form input {
+    border-radius: 4px;
+    border: 1px solid lightgrey;
+    padding: 0.3rem;
+}
+form select {
+    border-radius: 4px;
+    border: 1px solid lightgrey;
+    padding: 0.3rem;
+}
+
+/* Archive */
+
+.upl {
+
+    text-align: center;
+}
+
+.upl label {
+    font-weight: 800;
+    margin-top: 0.5rem;
+}
+
+.upl input {
+    background-color: white;
+    color: black;
+    
+}
+
+.upl textarea {
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+    min-width: 40%;
+}
+
+/* Inventory */
+.inv-table .img {
+    height: 7rem;
+    width: 10rem;
+    background-position: center center !important;
+    background-size: cover !important;
+}
+
+.inv-table .img img {
+    display:none;
+}
+
+.inv-table .img:hover img {
+    display:block;
+    position: absolute;
+    bottom:0;
+    right:0;
+    max-width: 50vw;
+    max-height: 40vh;
+    border-top-left-radius: 5rem;
+}
+.table-wrapper {
+    max-width:100%;
+}
+.searchbar form {
+    display:flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: row;
+}
+#searchbar {
+    margin-bottom: 1.5rem;
+}
+.searchbar .input-group {
+    padding: 0.5rem;
+    width: unset;
+}
+.input-group .dropdown-toggle {
+    border: 1px solid lightgrey;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.input
+.pagination {
+    margin: 1rem;
+}
+#Inventory a:hover {
+    cursor:pointer;
+}
+#Inventory {
+    width: 100% !important;
+}
+.container-fluid {
+    max-width:100%;
+
+}
+.flexbox {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+.disp-half {
+    min-width: 15rem;
+    margin:0.5%;
+    width:99%;
+}
+.itemimg {
+    height: 20vh;
+    background-position: 0 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin:0.5rem;
+}
+.itemimg img {
+    height: 20vh;
+    border-radius: 0.5rem;
+}
+.identifier {
+    font-size: 110%;
+}
+.identifier, .value {
+    margin-bottom: 0.5rem;
+    font-size: 110%;
+}
+.itemnotes {
+    display: inline-table; /* table|inline-table|table-cell */
+  word-wrap: normal;
+  width:40%;
+}
+.row {
+    justify-content: flex-start;
+
+}
+.row .card {
+    overflow:hidden;
+    padding:0;
+    font-size: 110%;
+    overflow: visible;
+}
+.row .col .card-text {
+    word-wrap: break-word;
+    line-break: anywhere;
+}
+
+.iteminput, .featureinput, .featureaddinput {
+    display:none;
+}
+.item-properties .card {
+    min-width: 15rem;
+}
+.sidebar.toggled .nav-item .nav-link span {
+    font-size: 0.8rem;
+}
+.sidebar .nav-item .nav-link span {
+    font-size: 1.1rem;
+}
+@media only screen and (max-width: 70rem) {
+.mobile-delete {
+    display:none;
+}
+}
+
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #1b1b1b;
+  border-bottom: 1px solid #0c0c0c;
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #272727;
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: #272727 !important;
+  color: #ffffff;
+}
+.text-s {
+    font-size: 90% !important;
+}
+.card-text {
+    margin-bottom: 0.5rem;
+}
+.lend .input-group {
+    margin-bottom: 0.5rem;
+}
+.lend .card-body {
+    margin: auto;
+    text-align: center;
+}
+.inline-form {
+    margin:0;
+    margin-top: 0.5rem;
+    display: inline;
+}
+.bigbadge {
+    font-size: 200%;
+}
+
+/* Tables */
+
+table form .btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+table form {
+    margin: 0;
+    padding: 0;
+}
+
+table .btn {
+    display:block;
+    margin-bottom: 0.5rem;
+}
+
+table, table th, table tr, table td {
+    color: white !important;
+    border-color: #444444 !important;
+}

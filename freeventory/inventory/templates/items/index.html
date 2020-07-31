@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>Inventory</h1>
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#searchbar" role="button" aria-expanded="false" aria-controls="searchbar">
+    <i class="fas fa-search"></i>  Filter
+  </a>
+</p>
+
+
+<div class="card shadow collapse {% if search %}show{% endif %}" id="searchbar">
+  <div class=" searchbar card-body">
+      
+      <form method="POST" action="#">
+        {% csrf_token %}
+        
+          
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Place</label>
+            </div>
+            <select data-live-search="true" class="selectpicker" id="place" name="place">
+              <option data-tokens="{{search_place.name}}" selected value="{{search_place.id}}">{{search_place.name}}</option>
+              <option data-tokens="empty - nothing unset" value="">-</option>
+              {% for place in places %}
+              <option data-tokens="{{place.name}}" value="{{place.id}}">{{place.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Category</label>
+            </div>
+            <select data-live-search="true" class="selectpicker" id="place" name="category">
+              <option data-tokens="{{search_category.name}}" selected value="{{search_category.id}}">{{search_category.name}}</option>
+              <option data-tokens="empty - nothing unset" value="">-</option>
+              {% for cat in categories %}
+              <option data-tokens="{{cat.name}}" value="{{cat.id}}">{{cat.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Only Items with active lend</label>
+            </div>
+            <select data-live-search="true" class="selectpicker" id="lend" name="lend">
+              <option data-tokens="{{search_lend}}" selected value="{{search_lend}}">{{search_lend}}</option>
+              <option data-tokens="yes" value="yes">yes</option>
+              <option data-tokens="- empty nothing" value="">-</option>
+            </select>
+          </div>
+
+        
+        <button type="submit" class="btn btn-success">
+          <i class="fas fa-search"></i>  Search
+        </button>
+      </form>
+    </div>
+</div>
+
+<div class="table-wrapper darkcard card shadow" style="padding: 1rem;">
+  <table class="table table-bordered table-striped inv-table table-sm" id="Inventory">
+    <thead>
+      <tr>
+        <th class="">Name</th>
+        <th class="">Amount</th>
+        <th class="mobile-delete ">Image</th>
+        <th class="">Place</th>
+        <th class="">Storage</th>
+        <th class="">In lend</th>
+        <th class="">Owner</th>
+        <th class="">Price</th>
+        <th class="">Action</th>
+        <th style="display:none;" class="">Category</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      {% for item in itemlist %}
+      <tr>
+          <td>{{item.name}}</td>
+          <td>{{item.amount_fixed}}</td>
+          <td class="{% if item.thumb.name %}img{% endif %} mobile-delete" {% if item.thumb.name %} style="background: url('/{{item.thumb.url}}');'"{% endif %}></td>
+          <td>{{item.place.name}}</td>
+          <td>{{item.storage_position}}</td>
+          <td>{{item.lends}}</td>
+          <td>{{item.owner}}</td>
+          <td>{{item.price}}</td>
+          <td>
+            {% if perms.inventory.view_item %}<a href="{% url 'singleitem' item.id %}" class="btn btn-primary"><i class="fas fa-search"></i> View</a> {% endif %}
+            {% if perms.inventory.add_action %}
+            <form action="{% url 'addaction' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="itemid" value="{{item.id}}">
+                <input type="hidden" name="isindex" value="yes">
+                <button type="submit" class="btn btn-success">
+                  <i class="fas fa-plus"></i> Add Action
+                </button>
+            </form>
+            {%endif%}
+            {% if perms.inventory.add_lend %}
+            <form action="{% url 'addlend' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="itemid" value="{{item.id}}">
+                <input type="hidden" name="isindex" value="yes">
+                <button type="submit" class="btn btn-success">
+                  <i class="fas fa-cart-plus"></i> Add Lend
+                </button>
+            </form>
+            {% endif %}
+          </td>
+          <td style="display:none;">{{item.category.name}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#Inventory').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+} );
+  
+$(document).ready(function(){
+$("#myInput").on("keyup", function() {
+  var value = $(this).val().toLowerCase();
+  $("#myTable tr").filter(function() {
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+  });
+});
+});
+</script>
+
+
+{% endblock %}
+

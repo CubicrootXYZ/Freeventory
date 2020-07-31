@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>Inventory</h1>
+{% if perms.inventory.edit_lend %}
+<form action="{% url 'addlend' %}" method="POST" >
+    {% csrf_token %}
+    <input type="hidden" value="1" name="itemid"> 
+    <input type="hidden" name="islend" value="yes">
+    <button type="submit" class="btn btn-success">
+      <i class="fas fa-cart-plus"></i> Add Lend
+    </button>
+</form>
+{% endif %}
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#searchbar" role="button" aria-expanded="false" aria-controls="searchbar">
+    <i class="fas fa-search"></i> Filter
+  </a>
+
+</p>
+
+
+<div class="card shadow collapse {% if search %}show{% endif %}" id="searchbar">
+  <div class=" searchbar card-body">
+
+      <form method="POST" action="#">
+        {% csrf_token %}
+
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Item</label>
+            </div>
+            <select data-live-search="true" class="selectpicker" id="item" name="item">
+              <option data-tokens="{{search_item}}" selected value="{{search_item.id}}">{{search_item.name}}</option>
+              <option data-tokens="empty - nothing unset" value="">-</option>
+              {% for item in items %}
+              <option data-tokens="{{item.name}}" value="{{item.id}}">{{item.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Person</label>
+            </div>
+            <select data-live-search="true" class="selectpicker" id="person" name="person">
+              <option data-tokens="{{search_person}}" selected value="{{search_person.id}}">{{search_person.name}}</option>
+              <option data-tokens="empty - nothing unset" value="">-</option>
+              {% for person in persons %}
+              <option data-tokens="{{person.name}}" value="{{person.id}}">{{person.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+
+        <button type="submit" class="btn btn-success">
+          <i class="fas fa-search"></i> Search
+        </button>
+      </form>
+    </div>
+</div>
+
+<div class="table-wrapper card darkcard shadow" style="padding: 1rem;">
+  <table class="table table-bordered table-striped inv-table table-sm" id="Inventory">
+    <thead>
+      <tr>
+        <th class="">Item</th>
+        <th class="">Amount</th>
+        <th class="">Lend by</th>
+        <th class="">Lend at</th>
+        <th class="">Lend until</th>
+        <th class="">Action</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      {% for lend in lends %}
+      <tr>
+          <td>{{lend.item.name}}</td>
+          <td><span class="badge badge-primary">{{lend.amount}}</span></td>
+          <td>{{ lend.responsible.name }}</td>
+          <td>{{lend.lend_start}}</td>
+          <td>{{lend.lend_end}}</td>
+          <td>
+            {% if perms.inventory.view_item %}<a href="{% url 'singleitem' lend.item.id %}" class="btn btn-primary"><i class="fas fa-search"></i> View</a> {% endif %}
+            {% if perms.inventory.edit_lend %}
+            <form action="{% url 'updatelend' %}" method="POST" class="inline-form">
+                {% csrf_token %}
+                <input type="hidden" value="{{lend.id}}" name="lendid">
+                <input type="hidden" value="lends" name="itemid"> 
+                <input type="hidden" name="islend" value="yes">
+                <button type="submit" class="btn btn-success">
+                  <i class="fas fa-undo-alt"></i> Return
+                </button>
+            </form>
+            {% endif %}
+          </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#Inventory').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+} );
+  
+$(document).ready(function(){
+$("#myInput").on("keyup", function() {
+  var value = $(this).val().toLowerCase();
+  $("#myTable tr").filter(function() {
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+  });
+});
+});
+</script>
+
+
+{% endblock %}
+
