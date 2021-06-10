@@ -1,3 +1,5 @@
+CURRENTLY NOT MAINTAINED
+
 # Freeventory
 Free, easy and simple inventory management. 
 
